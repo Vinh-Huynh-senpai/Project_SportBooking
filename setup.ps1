@@ -14,11 +14,11 @@ try{
 }finally{$rng.Dispose()}
 $config | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $configPath -Encoding UTF8
 @("Email: $($config.Seed.AdminEmail)","Password: $($config.Seed.AdminPassword)") | Set-Content -LiteralPath 'LOCAL-ADMIN.txt' -Encoding UTF8
-[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'trek_bikes_app\.env'),"API_URL=$ApiUrl`n",[Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $PSScriptRoot 'datsan\.env'),"API_URL=$ApiUrl`n",[Text.UTF8Encoding]::new($false))
 dotnet restore WebApi
 if($LASTEXITCODE -ne 0){throw 'Backend restore failed'}
 dotnet run --project WebApi --no-launch-profile -- --init-db --init-only
 if($LASTEXITCODE -ne 0){throw 'Migration/seed failed. Check SQL Server and connection string.'}
 Write-Host 'Stage2 database and seed ready. Private admin credentials: LOCAL-ADMIN.txt'
 Write-Host 'API: dotnet run --project WebApi --no-launch-profile --urls http://localhost:5290'
-Write-Host 'Flutter: cd trek_bikes_app; flutter pub get; flutter run -d chrome --web-port 7360'
+Write-Host 'Flutter: cd datsan; flutter pub get; flutter run -d chrome --web-port 7360'

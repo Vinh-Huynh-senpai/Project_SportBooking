@@ -11,6 +11,14 @@ GO
 BEGIN TRANSACTION;
 GO
 
+
+CREATE DATABASE SportsBooking;
+GO
+
+USE SportsBooking;
+GO
+
+
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
     WHERE [MigrationId] = N'20261121092956_InitialSportsBooking'
